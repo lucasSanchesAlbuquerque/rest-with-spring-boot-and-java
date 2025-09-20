@@ -1,21 +1,27 @@
 package lucasSA.com.controllers;
 
+import lombok.RequiredArgsConstructor;
 import lucasSA.com.exception.UnsupportedMathOperationException;
+import lucasSA.com.services.MathServices;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/math")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MathController {
+
+    private final MathServices mathServices;
+
 
     //http://localhost:8080/math/sum/3/5
     @RequestMapping("/sum/{numberOne}/{numberTwo}")
     public Double sum(
             @PathVariable("numberOne") String numberOne,
             @PathVariable("numberTwo") String numberTwo) throws Exception {
-        if(!isNumeric(numberOne) || !isNumeric(numberTwo) ) throw new UnsupportedMathOperationException("please set a numeric value");
-        return convertToDouble(numberOne) + convertToDouble(numberTwo);
+        return mathServices.sum(numberOne, numberTwo);
     }
 
     //http://localhost:8080/math/subtraction/3/5
@@ -23,8 +29,7 @@ public class MathController {
     public Double subtraction(
             @PathVariable("numberOne") String numberOne,
             @PathVariable("numberTwo") String numberTwo) throws Exception {
-        if(!isNumeric(numberOne) || !isNumeric(numberTwo) ) throw new UnsupportedMathOperationException("please set a numeric value");
-        return convertToDouble(numberOne) - convertToDouble(numberTwo);
+        return mathServices.subtraction(numberOne, numberTwo);
     }
 
     //http://localhost:8080/math/division/3/5
@@ -32,8 +37,7 @@ public class MathController {
     public Double division(
             @PathVariable("numberOne") String numberOne,
             @PathVariable("numberTwo") String numberTwo) throws Exception {
-        if(!isNumeric(numberOne) || !isNumeric(numberTwo) ) throw new UnsupportedMathOperationException("please set a numeric value");
-        return convertToDouble(numberOne) / convertToDouble(numberTwo);
+        return mathServices.division(numberOne, numberTwo);
     }
 
     //http://localhost:8080/math/mean/3/5
@@ -41,33 +45,20 @@ public class MathController {
     public Double mean(
             @PathVariable("numberOne") String numberOne,
             @PathVariable("numberTwo") String numberTwo) throws Exception {
-        if(!isNumeric(numberOne) || !isNumeric(numberTwo) ) throw new UnsupportedMathOperationException("please set a numeric value");
-        return (convertToDouble(numberOne) + convertToDouble(numberTwo)) / 2;
+        return mathServices.mean(numberOne, numberTwo);
     }
 
     //http://localhost:8080/squareRoot/division/3/5
-    @RequestMapping("/squareRoot/{numberOne}/{numberTwo}")
-    public String squareRoot(
-            @PathVariable("numberOne") String numberOne,
-            @PathVariable("numberTwo") String numberTwo) throws Exception {
-        if(!isNumeric(numberOne) || !isNumeric(numberTwo) ) throw new UnsupportedMathOperationException("please set a numeric value");
-        String resultado;
-        return resultado = "A raiz quadrada de "+numberOne+ " é: " + Math.sqrt(convertToDouble(numberOne)) +
-                "\n A raiz quadrada de "+numberTwo+ " é: " + Math.sqrt(convertToDouble(numberTwo));
+    @RequestMapping("/squareRoot/{number}")
+    public Double squareRoot(
+            @PathVariable("numberOne") String number) throws Exception {
+        return mathServices.squareRoot(number);
 
     }
 
-    private Double convertToDouble(String strNumber) throws UnsupportedMathOperationException {
-        if(strNumber == null || strNumber.isEmpty()) throw new UnsupportedMathOperationException("please set a numeric value");
-        String number = strNumber.replace(",",".");
-        return Double.parseDouble(number);
-    }
 
-    private boolean isNumeric(String strNumber){
-        if(strNumber == null || strNumber.isEmpty())return false;
-        String number = strNumber.replace(",",".");
-        return number.matches("[-+]?[0-9]*\\.?[0-9]+");
-    }
+
+
 
 
 
