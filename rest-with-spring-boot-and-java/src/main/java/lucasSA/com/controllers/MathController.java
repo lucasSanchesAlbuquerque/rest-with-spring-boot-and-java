@@ -18,6 +18,45 @@ public class MathController {
         return convertToDouble(numberOne) + convertToDouble(numberTwo);
     }
 
+    //http://localhost:8080/math/subtraction/3/5
+    @RequestMapping("/subtraction/{numberOne}/{numberTwo}")
+    public Double subtraction(
+            @PathVariable("numberOne") String numberOne,
+            @PathVariable("numberTwo") String numberTwo) throws Exception {
+        if(!isNumeric(numberOne) || !isNumeric(numberTwo) ) throw new UnsupportedMathOperationException("please set a numeric value");
+        return convertToDouble(numberOne) - convertToDouble(numberTwo);
+    }
+
+    //http://localhost:8080/math/division/3/5
+    @RequestMapping("/division/{numberOne}/{numberTwo}")
+    public Double division(
+            @PathVariable("numberOne") String numberOne,
+            @PathVariable("numberTwo") String numberTwo) throws Exception {
+        if(!isNumeric(numberOne) || !isNumeric(numberTwo) ) throw new UnsupportedMathOperationException("please set a numeric value");
+        return convertToDouble(numberOne) / convertToDouble(numberTwo);
+    }
+
+    //http://localhost:8080/math/mean/3/5
+    @RequestMapping("/mean/{numberOne}/{numberTwo}")
+    public Double mean(
+            @PathVariable("numberOne") String numberOne,
+            @PathVariable("numberTwo") String numberTwo) throws Exception {
+        if(!isNumeric(numberOne) || !isNumeric(numberTwo) ) throw new UnsupportedMathOperationException("please set a numeric value");
+        return (convertToDouble(numberOne) + convertToDouble(numberTwo)) / 2;
+    }
+
+    //http://localhost:8080/squareRoot/division/3/5
+    @RequestMapping("/squareRoot/{numberOne}/{numberTwo}")
+    public String squareRoot(
+            @PathVariable("numberOne") String numberOne,
+            @PathVariable("numberTwo") String numberTwo) throws Exception {
+        if(!isNumeric(numberOne) || !isNumeric(numberTwo) ) throw new UnsupportedMathOperationException("please set a numeric value");
+        String resultado;
+        return resultado = "A raiz quadrada de "+numberOne+ " é: " + Math.sqrt(convertToDouble(numberOne)) +
+                "\n A raiz quadrada de "+numberTwo+ " é: " + Math.sqrt(convertToDouble(numberTwo));
+
+    }
+
     private Double convertToDouble(String strNumber) throws UnsupportedMathOperationException {
         if(strNumber == null || strNumber.isEmpty()) throw new UnsupportedMathOperationException("please set a numeric value");
         String number = strNumber.replace(",",".");
@@ -32,6 +71,6 @@ public class MathController {
 
 
 
-    //http://localhost:8080/math/subtraction/3/5
-    //http://localhost:8080/math/division/3/5
+
+
 }
