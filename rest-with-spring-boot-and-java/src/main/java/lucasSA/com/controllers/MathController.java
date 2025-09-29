@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MathController {
 
+    //services
     private final MathServices mathServices;
 
 
@@ -51,7 +52,7 @@ public class MathController {
     //http://localhost:8080/squareRoot/division/3/5
     @RequestMapping("/squareRoot/{number}")
     public Double squareRoot(
-            @PathVariable("numberOne") String number) throws Exception {
+            @PathVariable("number") String number) throws Exception {
         return mathServices.squareRoot(number);
 
     }
